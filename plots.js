@@ -22,7 +22,7 @@ var interval = setInterval(function(){
   // this way we can fill it up again for the next interval
 
   // TODO: ?what differs with these two lines?
-  // resetCounts('classificationCount')
-  counts = {}
+  resetCounts('classificationCount')
+  // counts = {}
 
 }, updateEveryMS);
