@@ -13,6 +13,9 @@ var pusher = new Pusher(pusherProdKey, {
 // move this to an structure / class that manages it's own state
 // that we can send messages to.
 var counts = {}
+var accumdata = []
+var lattitudes = []
+var longitudes = []
 
 var panoptesChannel = pusher.subscribe('panoptes');
 
@@ -24,6 +27,7 @@ var incrementCounts = function(attribute) {
 var resetCounts = function(attribute) {
   counts[attribute] = 0;
 }
+
 
 // This code runs each time a classification event comes down
 // the panoptes pusher pipe
@@ -39,14 +43,26 @@ panoptesChannel.bind('classification', function(data) {
   var userId = data['user_id'];
   // console.log(userId);
 
+  var latitude = data['geo'].latitude
+  //console.log(latitude)
+
+  var longitude = data['geo'].longitude
+  //console.log(longitude)
+
   // update the current counts object
   incrementCounts('classificationCount')
   incrementCounts('projectId')
   incrementCounts('workflowId')
   incrementCounts('userId')
 
+  accumdata.push(data)
+  lattitudes.push(latitude)
+  longitudes.push(longitude)
+
   // DEBUG what does the counts look like?
   // console.log(counts);
+  // console.log(accumdata);
+  //console.log(lattitudes)
 });
 
 
