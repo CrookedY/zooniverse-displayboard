@@ -1,6 +1,13 @@
 var data = [{
        type: 'scattergeo',
-       mode: 'markers',
+       mode: 'markers+text',
+       text:['test'],
+       textposition: 'topright',
+       textfont: {
+       family: 'sans serif',
+       size: 18,
+       color: '#1f77b4'
+        },
        lon: [
            -73.57
        ],
@@ -36,47 +43,37 @@ var data = [{
            lataxis: {
                'range': [-179, 179]
            },
-           showrivers: true,
-           rivercolor: '#fff',
+           showrivers: false,
            showlakes: true,
            lakecolor: '#fff',
            showland: true,
-           landcolor: '#EAEAAE',
+           landcolor: 'rgba(198,205,197,1)',
+           showcountries: true,
            countrycolor: '#d3d3d3',
            countrywidth: 1.5,
-           subunitcolor: '#d3d3d3'
+           subunitcolor: '#d3d3d3',
+           showocean:true,
+           oceancolor: 'rgba(250,250,250,1)'
        }
    };
 
 Plotly.newPlot('graph', data, layout);
 
 
-var updateEveryMS = 4000;
+var updateEveryMS = 2000;
 
 var interval = setInterval(function(){
   //console.log(lattitudes);
   // single series classification count
   // https://plot.ly/javascript/plotlyjs-function-reference/#plotlyextendtraces
 
-//https://stackoverflow.com/questions/32116368/plotly-update-data
-  var newLocations = {lat: [lattitudes], lon: [longitudes]};
-  console.log(newLocations)
-  // {
-  //     data[0]['y'][0] = value;
-  //     Plotly.redraw('PlotlyTest');
+  var newLocations = {lat: [lattitudes], lon: [longitudes], text: [project_name_list]};
+  //console.log(newLocations)
 
   Plotly.restyle('graph', newLocations, [0]);
 
   lattitudes = []
   longitudes = []
+  project_name_list = []
 
 }, updateEveryMS);
-
-
-
-/////need to get it to update but extend traces doesn't work. plotly restlyle?
-
-//
-
-
-//reset data
