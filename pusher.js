@@ -12,10 +12,15 @@ var pusher = new Pusher(pusherProdKey, {
 // TODO: instead of a global variable that we modify all over the place
 // move this to an structure / class that manages it's own state
 // that we can send messages to.
-var counts = {}
-var lattitudes = []
-var longitudes = []
-var project_name_list = []
+
+//Panoptes global variables
+var counts = {};
+var countsProjects = {};
+var lattitudes = [];
+var longitudes = [];
+var project_name_list = [];
+var countryList = []
+
 
 
 var panoptesChannel = pusher.subscribe('panoptes');
@@ -24,6 +29,17 @@ var panoptesChannel = pusher.subscribe('panoptes');
 var incrementCounts = function(attribute) {
   counts[attribute] = (counts[attribute] || 0) + 1
 };
+
+var projectCounts = function(project_name_list){
+for (var i = 0; i < project_name_list.length; i++) {
+  var num = project_name_list[i];
+  countsProjects[num] = countsProjects[num] ? countsProjects[num] + 1 : 1;
+}
+}
+
+// var diffProjectNum = project_name_list.filter(function(val, i, arr) {
+//     return arr.indexOf(val) === i;
+// }).length;
 
 
 var resetCounts = function(attribute) {
@@ -54,10 +70,10 @@ var getProjectName = function(projectId) {
 // This code runs each time a classification event comes down
 // the panoptes pusher pipe
 panoptesChannel.bind('classification', function(data) {
-  // console.log(data);
+  //  console.log(data);
 
   var projectId = data['project_id'];
-   console.log(projectId);
+  // console.log(projectId);
 
   var projectName = getProjectName(projectId);
 
@@ -71,17 +87,20 @@ panoptesChannel.bind('classification', function(data) {
   //console.log(latitude)
 
   var longitude = data['geo'].longitude
-  //console.log(longitude)
+
+  var country = data['geo'].country_name
+  //console.log(country)
 
   // update the current counts object
   incrementCounts('classificationCount')
-  incrementCounts('project'+projectId)
-  incrementCounts('workflowId')
-  incrementCounts('userId')
+
+  projectCounts(project_name_list)
 
   lattitudes.push(latitude)
   longitudes.push(longitude)
   project_name_list.push(projectName)
+  countryList.push(country)
+
 
   // DEBUG what does the counts look like?
   // console.log(counts);
@@ -94,8 +113,23 @@ panoptesChannel.bind('classification', function(data) {
 // talk vs prev gen API Ouroboros
 // we can look at adding these in later for more event types
 
-// var panoptesTalkChannel = pusher.subscribe('talk');
-// panoptesTalkChannel.bind('comment', function(data) { });
+
+//talk global variables
+
+var talkLatitudes = []
+var talkLongitudes = []
+
+ var panoptesTalkChannel = pusher.subscribe('talk');
+ panoptesTalkChannel.bind('comment', function(Talkdata) {
+//console.log(Talkdata)
+
+var talkLatitude = Talkdata['geo'].latitude
+var talkLongitude = Talkdata['geo'].longitude
+
+talkLongitudes.push(talkLongitude)
+talkLatitudes.push(talkLatitude)
+
+ });
 
 // var ouroborosChannel = pusher.subscribe('ouroboros');
 // ouroborosChannel.bind('classification', function(data) { });

@@ -1,0 +1,34 @@
+#counter{
+  margin-left: 40%;
+  margin-right: 40%;
+  font-family: fantasy;
+}
+
+/*.scattergeolayer{}*/
+
+  @-webkit-keyframes fade {
+    0% {
+        opacity: 1;
+    }
+
+    10% {
+        opacity: 1;
+    }
+
+    50%  {
+      opacity: 1;
+    }
+
+    90% {
+        opacity: .7;
+    }
+
+    100% {
+        opacity: .5;
+    }
+}
+
+.point {
+    -webkit-animation: fade 3s;
+    -webkit-animation-fill-mode: both;
+}
