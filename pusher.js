@@ -31,11 +31,19 @@ var incrementCounts = function(attribute) {
 };
 
 var projectCounts = function(project_name_list){
-for (var i = 0; i < project_name_list.length; i++) {
-  var num = project_name_list[i];
-  countsProjects[num] = countsProjects[num] ? countsProjects[num] + 1 : 1;
+  for (var i = 0; i < project_name_list.length; i++) {
+    var project_name = project_name_list[i] || 'not_sure';
+    var inc_count = 0;
+    if (project_name in countsProjects) {
+      inc_count = countsProjects[project_name] + 1;
+    }
+    else {
+      inc_count = 1;
+    }
+    countsProjects[project_name] = inc_count;
+  }
 }
-}
+
 
 // var diffProjectNum = project_name_list.filter(function(val, i, arr) {
 //     return arr.indexOf(val) === i;
@@ -57,11 +65,13 @@ var getProjectName = function(projectId) {
                 'Accept': 'application/vnd.api+json; version=1'}
     }).then((response) => {
       response.json().then((data) => {
-        var project = data['projects'][0];
-        // project.avatarSrc = 'https://placekitten.com/175/175';
-        // this.loadAvatar(project);
-        projects[projectId] = project;
-        return projects[projectId].display_name
+        if('projects' in data){
+          var project = data['projects'][0];
+          // project.avatarSrc = 'https://placekitten.com/175/175';
+          // this.loadAvatar(project);
+          projects[projectId] = project;
+          return projects[projectId].display_name
+        }
       });
     })
   }
@@ -121,14 +131,13 @@ var talkLongitudes = []
 
  var panoptesTalkChannel = pusher.subscribe('talk');
  panoptesTalkChannel.bind('comment', function(Talkdata) {
-//console.log(Talkdata)
+  // console.log(Talkdata)
 
-var talkLatitude = Talkdata['geo'].latitude
-var talkLongitude = Talkdata['geo'].longitude
+  var talkLatitude = Talkdata['geo'].latitude
+  var talkLongitude = Talkdata['geo'].longitude
 
-talkLongitudes.push(talkLongitude)
-talkLatitudes.push(talkLatitude)
-
+  talkLongitudes.push(talkLongitude)
+  talkLatitudes.push(talkLatitude)
  });
 
 // var ouroborosChannel = pusher.subscribe('ouroboros');
