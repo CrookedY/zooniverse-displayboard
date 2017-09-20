@@ -127,12 +127,12 @@ var updateEveryMS = 3000;
 var interval = setInterval(function(){
 
   var newLocations = {lat: [lattitudes], lon: [longitudes], hovertext: [project_name_list]};
-  //console.log(Talkdata)
+  //console.log(total)
 
   var newLocationsTalk = {lat: [talkLatitudes], lon: [talkLongitudes]};
 
   Plotly.restyle('graph', newLocations, [0]);
-  Plotly.restyle('graph', newLocationsTalk, [1]);
+  //Plotly.restyle('graph', newLocationsTalk, [1]);
 
   lattitudes = []
   longitudes = []

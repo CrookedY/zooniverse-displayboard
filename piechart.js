@@ -1,20 +1,34 @@
-var total = 0;
-var percentProjects = []
+var total = function () {
+  return Object.values(countsProjects).reduce(function (a, b) {
+    return a + b; }, 0);
+  }
+//console.log(total)
 
+var percentProjects = function(total){
+  //  console.log(Object.entries(countsProjects));
+  var map = new Map(Object.entries(countsProjects));
+  var results = []
+  map.forEach(function(count_value, id){
+    //console.log(id + " " + count_value)
+    results.push(
+      { name: id, percent: count_value *100 / total, total: total, proportion: count_value}
+    );
+  })
+//  console.log(results);
+  return results;
+}
 
-//
-// for (var i = 0; i < countsProjects.length; i++){
-//   percentProjects.push(countsProjects[i] = (countsProjects[i] / total * 100));
+//   return Object.entries(countsProjects).(function(project_id, countsofprojects) {
+//     resultObj = {};
+//     resultObj[project_id] = { percent: countsofprojects *100 / total, total: total, proportion: countsofprojects} ;
+//     return resultObj;
+//   })
 // }
 
-
-for(var i in countsProjects){
-  total += parseInt(countsProjects[i]);
-  }
-
-for (var i in countsProjects){
-  percentProjects.push(countsProjects[i] = (percentProjects[i] / total * 100))
-  };
+// var percentProjects = Object.keys(countsProjects).reduce(function(previous, current) {
+//     previous[current] = countsProjects[current] / total * 100
+//   return classificationcount / total * 100.0
+// })
 
 
   var data = [{
@@ -29,8 +43,14 @@ for (var i in countsProjects){
 
   var interval = setInterval(function(){
 
-    var newData = {values:percentages, labels:projects};
-    console.log()
+
+    //console.log(Object.entries(countsProjects))
+    var finalProjectPercentages = (percentProjects(total()))
+
+    var percentages =
+
+    var newData = {} //{values:percentages, labels:projects};
+    console.log(finalProjectPercentages)
 
     Plotly.restyle('graph', newData, [0]);
 

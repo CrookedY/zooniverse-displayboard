@@ -31,11 +31,20 @@ var incrementCounts = function(attribute) {
 };
 
 var projectCounts = function(project_name_list){
-for (var i = 0; i < project_name_list.length; i++) {
-  var num = project_name_list[i];
-  countsProjects[num] = countsProjects[num] ? countsProjects[num] + 1 : 1;
-}
-}
+  for (var i = 0; i < project_name_list.length; i++) {
+     var project_name = project_name_list[i] || 'unidentified';
+     //console.log(project_name);
+     var inc_count = 0;
+      if (project_name in countsProjects) {
+        inc_count = countsProjects[project_name] + 1;
+         }
+         else {
+           inc_count = 1;
+             }
+             countsProjects[project_name] = inc_count;
+           }
+         }
+
 
 // var diffProjectNum = project_name_list.filter(function(val, i, arr) {
 //     return arr.indexOf(val) === i;
