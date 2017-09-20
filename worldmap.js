@@ -27,6 +27,7 @@ var classificationData = [{
           type: 'scattergeo',
           mode: 'markers',
           textposition: 'topright',
+          color: '#000000',
           lon: [
 
           ],
@@ -39,7 +40,7 @@ var classificationData = [{
                   width: 1
               }
           },
-          name: 'Classification',
+          name: 'Talk',
       }];
 
 
@@ -52,8 +53,8 @@ var classificationData = [{
        titlefont: {
            size: 16
        },
-      //  height: 1000,
-      //  width: 1000,
+       //  height: 1000,
+       //  width: 1000,
        //updatemenus = updatemenu,
        geo: {
            scope: 'world',
@@ -103,36 +104,67 @@ var classificationData = [{
   //         ]
   //       }]
 
-  var d3 = Plotly.d3;
-  var WIDTH_IN_PERCENT_OF_PARENT = 100,
-      HEIGHT_IN_PERCENT_OF_PARENT = 100;
+var d3 = Plotly.d3;
+var WIDTH_IN_PERCENT_OF_PARENT = 90,
+    HEIGHT_IN_PERCENT_OF_PARENT = 90;
 
-  var gd3 = d3.select("div[id='graph']")
-    .style({
-      width: WIDTH_IN_PERCENT_OF_PARENT + '%',
-      'margin-left': (100 - WIDTH_IN_PERCENT_OF_PARENT) / 2 + '%',
-      height: HEIGHT_IN_PERCENT_OF_PARENT + 'vh',
-      'margin-top': (100 - HEIGHT_IN_PERCENT_OF_PARENT) / 2 + 'vh'
-  });
+var gd3 = d3.select("div[id='graph']")
+  .style({
+    width: WIDTH_IN_PERCENT_OF_PARENT + '%',
+    'margin-left': (100 - WIDTH_IN_PERCENT_OF_PARENT) / 2 + '%',
+    height: HEIGHT_IN_PERCENT_OF_PARENT + 'vh',
+    'margin-top': (100 - HEIGHT_IN_PERCENT_OF_PARENT) / 2 + 'vh'
+});
 
-data = classificationData
+var gd = gd3.node();
 
-Plotly.plot('graph', data, layout);
+Plotly.plot('graph', classificationData, layout);
 
-window.onresize = function() { Plotly.Plots.resize( graph ) };
-
+window.onresize = function() { Plotly.Plots.resize(gd); };
 
 var updateEveryMS = 3000;
 
 var interval = setInterval(function(){
 
   var newLocations = {lat: [lattitudes], lon: [longitudes], hovertext: [project_name_list]};
-  //console.log(Talkdata)
-
-  var newLocationsTalk = {lat: [talkLatitudes], lon: [talkLongitudes]};
-
+  // console.log(newLocations)
   Plotly.restyle('graph', newLocations, [0]);
-  Plotly.restyle('graph', newLocationsTalk, [1]);
+
+  if (talkLatitudes.length !== 0) {
+    console.log(talkLatitudes.length);
+    var newLocationsTalk = {lat: [talkLatitudes], lon: [talkLongitudes]};
+    console.log(newLocationsTalk);
+
+    // add traces doesn't work for anything...just redraws a cartesian coord plot
+    // extendTraces(graphDiv, {y: [[rand()], [rand()]]}, [0, 1])
+    // Plotly.extendTraces('graph', newLocations);
+    // Plotly.plot('graph', newLocations);
+    // Plotly.plot('graph', newLocationsTalk);
+
+    newLayout = {
+      type: 'scattergeo',
+      mode: 'markers',
+      textposition: 'topright',
+      color: '#ea81de',
+      marker: {
+          size: 7,
+          line: {
+              width: 1
+          }
+      },
+      name: 'Talk',
+      lon: [talkLatitudes],
+      lat: [talkLongitudes],
+    }
+    // this doesn't quite work...the idea is to
+    // add a new series with a different layout (color, etc)
+    // TODO: best to figure out how to add a new series with a different
+    // layout without running an update, i.e. static graph data
+    // then modify that code that we know works
+    // to run on a timer interval as w
+    Plotly.restyle('graph', newLayout);
+    // Plotly.plot('graph', newLocationsTalk, newLayout);
+  }
 
   lattitudes = []
   longitudes = []
