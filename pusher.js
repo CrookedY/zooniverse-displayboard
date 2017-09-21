@@ -32,7 +32,7 @@ var incrementCounts = function(attribute) {
 
 var projectCounts = function(project_name_list){
   for (var i = 0; i < project_name_list.length; i++) {
-     var project_name = project_name_list[i] || 'unidentified';
+     var project_name = project_name_list[i] || 'Private or unidentified';
      //console.log(project_name);
      var inc_count = 0;
       if (project_name in countsProjects) {

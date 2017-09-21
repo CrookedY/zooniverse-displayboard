@@ -32,8 +32,8 @@ var percentProjects = function(total){
 
 
   var data = [{
-    values: [19, 26, 55],
-    labels: ['Residential', 'Non-Residential', 'Utility'],
+    values: [100],
+    labels: ['loading'],
     type: 'pie'
   }];
 
@@ -47,12 +47,24 @@ var percentProjects = function(total){
     //console.log(Object.entries(countsProjects))
     var finalProjectPercentages = (percentProjects(total()))
 
-    var percentages =
+    var percentages = []
+    var projects = []
 
-    var newData = {} //{values:percentages, labels:projects};
-    console.log(finalProjectPercentages)
+    for (var i = 0; i < finalProjectPercentages.length; i++){
+      var currentClassification = finalProjectPercentages[i]
+    //  if (currentClassification['name'] != "unidentified") {
+        percentages.push(currentClassification['percent']);
+        projects.push(currentClassification['name']);//}
 
-    Plotly.restyle('graph', newData, [0]);
+    }
+
+    console.log(percentages)
+    console.log(projects)
+
+    var newData = {values:[percentages], labels:[projects]};
+    //console.log(finalProjectPercentages)
+
+    Plotly.restyle('piechart', newData, [0]);
 
 
   }, updateEveryMS);
