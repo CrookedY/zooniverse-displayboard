@@ -1,5 +1,5 @@
-var total = function () {
-  return Object.values(countsProjects).reduce(function (a, b) {
+var total = function (toCount) {
+  return Object.values(toCount).reduce(function (a, b) {
     return a + b; }, 0);
   }
 //console.log(total)
@@ -18,18 +18,6 @@ var percentProjects = function(total){
   return results;
 }
 
-//   return Object.entries(countsProjects).(function(project_id, countsofprojects) {
-//     resultObj = {};
-//     resultObj[project_id] = { percent: countsofprojects *100 / total, total: total, proportion: countsofprojects} ;
-//     return resultObj;
-//   })
-// }
-
-// var percentProjects = Object.keys(countsProjects).reduce(function(previous, current) {
-//     previous[current] = countsProjects[current] / total * 100
-//   return classificationcount / total * 100.0
-// })
-
 
   var data = [{
     values: [100],
@@ -37,7 +25,19 @@ var percentProjects = function(total){
     type: 'pie'
   }];
 
-  Plotly.plot('piechart', data)
+  var gd4 = d3.select("div[id='piechart']")
+    .style({
+      width: WIDTH_IN_PERCENT_OF_PARENT + '%',
+      'margin-left': (100 - WIDTH_IN_PERCENT_OF_PARENT) / 2 + '%',
+      height: HEIGHT_IN_PERCENT_OF_PARENT + 'vh',
+      'margin-top': (100 - HEIGHT_IN_PERCENT_OF_PARENT) / 2 + 'vh'
+  });
+
+  var piechart = gd4.node()
+
+  Plotly.plot(piechart, data)
+
+  window.addEventListener('resize', function() { Plotly.Plots.resize(piechart); });
 
   var updateEveryMS = 3000;
 
@@ -45,7 +45,7 @@ var percentProjects = function(total){
 
 
     //console.log(Object.entries(countsProjects))
-    var finalProjectPercentages = (percentProjects(total()))
+    var finalProjectPercentages = (percentProjects(total(countsProjects)))
 
     var percentages = []
     var projects = []
@@ -64,7 +64,7 @@ var percentProjects = function(total){
     var newData = {values:[percentages], labels:[projects]};
     //console.log(finalProjectPercentages)
 
-    Plotly.restyle('piechart', newData, [0]);
+    Plotly.restyle(piechart, newData, [0]);
 
 
   }, updateEveryMS);

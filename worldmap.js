@@ -117,9 +117,11 @@ var classificationData = [{
 
 data = classificationData
 
-Plotly.plot('graph', data, layout);
+var graph =  gd3.node()
 
-window.onresize = function() { Plotly.Plots.resize( graph ) };
+Plotly.plot(graph, data, layout);
+
+window.onresize = function() { Plotly.Plots.resize( graph ) }
 
 
 var updateEveryMS = 3000;
