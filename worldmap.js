@@ -119,6 +119,8 @@ data = classificationData
 
 var graph =  gd3.node()
 
+var countsProjects = {};
+
 Plotly.plot(graph, data, layout);
 
 window.onresize = function() { Plotly.Plots.resize( graph ) }
@@ -127,6 +129,7 @@ window.onresize = function() { Plotly.Plots.resize( graph ) }
 var updateEveryMS = 3000;
 
 var interval = setInterval(function(){
+  projectCounts(project_name_list)
 
   var newLocations = {lat: [lattitudes], lon: [longitudes], hovertext: [project_name_list]};
   //console.log(total)
@@ -141,5 +144,6 @@ var interval = setInterval(function(){
   project_name_list = []
   talkLattitudes = []
   talkLatituds = []
+
 
 }, updateEveryMS);

@@ -25,6 +25,8 @@ var percentProjects = function(total){
     type: 'pie'
   }];
 
+  //https://community.plot.ly/t/responsive-plotly-js-was-working-now-it-is-not/451/2
+
   var gd4 = d3.select("div[id='piechart']")
     .style({
       width: WIDTH_IN_PERCENT_OF_PARENT + '%',
@@ -35,6 +37,8 @@ var percentProjects = function(total){
 
   var piechart = gd4.node()
 
+
+
   Plotly.plot(piechart, data)
 
   window.addEventListener('resize', function() { Plotly.Plots.resize(piechart); });
@@ -43,8 +47,9 @@ var percentProjects = function(total){
 
   var interval = setInterval(function(){
 
-
-    //console.log(Object.entries(countsProjects))
+    // console.log(countsProjects)
+    // console.log(project_name_list)
+    // console.log(counts.classificationCount)
     var finalProjectPercentages = (percentProjects(total(countsProjects)))
 
     var percentages = []
@@ -58,8 +63,6 @@ var percentProjects = function(total){
 
     }
 
-    console.log(percentages)
-    console.log(projects)
 
     var newData = {values:[percentages], labels:[projects]};
     //console.log(finalProjectPercentages)

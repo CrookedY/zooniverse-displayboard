@@ -15,11 +15,12 @@ var pusher = new Pusher(pusherProdKey, {
 
 //Panoptes global variables
 var counts = {};
-var countsProjects = {};
 var lattitudes = [];
 var longitudes = [];
 var project_name_list = [];
 var countryList = []
+
+
 
 
 
@@ -44,6 +45,22 @@ var projectCounts = function(project_name_list){
              countsProjects[project_name] = inc_count;
            }
          }
+
+
+ var countryCounts = function(countryList){
+   for (var i = 0; i < countryList.length; i++) {
+      var countryName = countryList[i];
+      //console.log(countryList[i]);
+      var inc_count = 0;
+       if (countryName in countryCount) {
+         inc_count = countryCount[countryName] + 1;
+          }
+          else {
+            inc_count = 1;
+              }
+              countryCount[countryName] = inc_count;
+           }
+          }
 
 
 var resetCounts = function(attribute) {
@@ -98,7 +115,8 @@ panoptesChannel.bind('classification', function(data) {
   // update the current counts object
   incrementCounts('classificationCount')
 
-  projectCounts(project_name_list)
+
+
 
   lattitudes.push(latitude)
   longitudes.push(longitude)
