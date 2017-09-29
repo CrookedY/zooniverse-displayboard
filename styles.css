@@ -4,9 +4,7 @@
   font-family: fantasy;
 }
 
-/*.scattergeolayer{}*/
-
-  @-webkit-keyframes fade {
+  /*@-webkit-keyframes fade {
     0% {
         opacity: 1;
     }
@@ -31,4 +29,4 @@
 .point {
     -webkit-animation: fade 3s;
     -webkit-animation-fill-mode: both;
-}
+}*/
