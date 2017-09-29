@@ -20,7 +20,7 @@ var classificationData = [{
                width: 1
            }
        },
-       name: 'Classification',
+       name: 'Classification Map',
    }];
 
    var talkData = [{
