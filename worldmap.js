@@ -39,12 +39,12 @@ var classificationData = [{
                   width: 1
               }
           },
-          name: 'Classification',
+          name: 'Classification Map',
       }];
 
 
    var layout = {
-       title: 'Classification',
+       title: 'Classification Map',
        font: {
            family: 'Droid Serif, serif',
            size: 6
